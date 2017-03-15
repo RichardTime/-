@@ -1,0 +1,104 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 01</title>
+  </head>
+<body>
+
+  <ul id="source">
+    <li>北京空气质量：<b>90</b></li>
+    <li>上海空气质量：<b>70</b></li>
+    <li>天津空气质量：<b>80</b></li>
+    <li>广州空气质量：<b>50</b></li>
+    <li>深圳空气质量：<b>40</b></li>
+    <li>福州空气质量：<b>32</b></li>
+    <li>成都空气质量：<b>90</b></li>
+  </ul>
+
+  <ul id="resort">
+    <!-- 
+    <li>第一名：北京空气质量：<b>90</b></li>
+    <li>第二名：北京空气质量：<b>90</b></li>
+    <li>第三名：北京空气质量：<b>90</b></li>
+     -->
+
+  </ul>
+
+  <button id="sort-btn">排序</button>
+
+<script type="text/javascript">
+			function $(id){return document.getElementById(id);}
+/**
+ * getData方法
+ * 读取id为source的列表，获取其中城市名字及城市对应的空气质量
+ * 返回一个数组，格式见函数中示例
+ */
+function getData() {
+					var arr=$("source").getElementsByTagName("li");
+					var data=[];
+					for(var i=0;i<arr.length;i++){
+						data[data.length]=[""+arr[i].innerHTML.substring(0,2)];				
+						data[i][1]=arr[i].getElementsByTagName("b")[0].innerHTML;
+					}
+
+					
+  /*
+  data = [
+    ["北京", 90],
+    ["北京", 90]
+    ……
+  ]
+  */
+
+  return data;
+
+}
+
+/**
+ * sortAqiData
+ * 按空气质量对data进行从小到大的排序
+ * 返回一个排序后的数组
+ */
+function sortAqiData(data) {
+								//调用getdata获取 数组
+							
+								return data.sort(function(x,y){
+									return y[1]-x[1];
+								})//从大到小排序
+								
+								
+}
+
+/**
+ * render
+ * 将排好序的城市及空气质量指数，输出显示到id位resort的列表中
+ * 格式见ul中的注释的部分
+ */
+		var rank=["一","二","三","四","五","六","七"]
+function render(data) {
+					
+					for(var i=0;i<data.length;i++){
+						var li=document.createElement("li");
+						li.innerHTML="第"+rank[i]+"名"+data[i][0]+"空气质量："+"<b>"+data[i][1]+"</b>";
+						$("resort").appendChild(li);
+					}
+}
+
+function btnHandle() {
+  var aqiData = getData();
+  aqiData = sortAqiData(aqiData);
+  render(aqiData);
+}
+
+function init() {
+
+  // 在这下面给sort-btn绑定一个点击事件，点击时触发btnHandle函数
+$("sort-btn").addEventListener("click",btnHandle,false);
+}
+
+init();
+
+</script>
+</body>
+</html
