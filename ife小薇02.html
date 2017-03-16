@@ -27,10 +27,12 @@
         ol{margin-left:30px;}
         table{ width:100%;}
         table thead{background:#333; color:#fff;}
-        .hb{border-left:2px solid #ccc; padding-left: 20px;}
-        .biaodan{ padding-left: 300px;}
-        .box{margin:20px 0; }
-        .box div{float:left;}
+     
+        .left{line-height: 32px; display:inline-block; width:30%; text-align: right; margin-right: 10px;}
+        .right{padding-left: 10px; margin-left:30%; color:#999;}
+        #person{margin-left: 31%;}
+        .btn{width:100%; height:50px; line-height: 50px; background:#3355d0; border-radius: 5px; color:#fff; font-size: 36px;}
+        .footer{ width:100%; background:#333; height:80px; line-height: 80px; color:#fff; text-align: center;}
     </style>
 </head>
 <body>
@@ -106,33 +108,21 @@
 
             <div class="wrap">
 <h2 class="hb">这里是一个侧栏</h2>
-<form action="#">
-        <div class="biaodan">
-            <div class="box clearfix"><div>请输入邮箱地址</div><div class="fLeft"><input type="text" placeholder="这里是一个文本输入框" /></div></div>
-            <div class="box clearfix"><div>邮箱地址请按格式输入</div></div>
-            <div class="box clearfix"><div>请输入密码</div><div class="fLeft"><input type="password" placeholder="这里是一个文本输入框" /></div></div>
-            <div class="box clearfix"><div>请重复输入密码</div><div class="fLeft"><input type="password" placeholder="这里是一个文本输入框" /></div></div>
-            <div class="box clearfix"><div>密码为6-16位英文数字</div></div>
-            <div class="box clearfix"><div>性别</div><div class="fLeft"><label for="a1"><input id="a1" type="radio" checked="checked"  name="bba" />男</label><label for="a2"><input type="radio" id="a2" name="bba" />女</label> </div></div>
-            <div class="box clearfix"><div>城市</div>
-            <div class="fLeft">
-            <select>
-                <option value="beijing">北京</option>
-                <option value="shanghai">上海</option>
-                <option value="hangzhou">杭州</option>
-            </select></div></div>
-        <div class="box clearfix"><div>爱好</div>
-        <div class="fLeft">
-          <label for="s1"><input type="checkbox" id="s1" name="oo" />运动</label>
-          <label for="s2"><input type="checkbox" id="s2" name="oo"/>艺术</label>
-          <label for="s3"><input type="checkbox" id="s3" name="oo"/>科学</label>
-        </div>
-        </div>
-        <div class="box clearfix"><div>个人描述</div><div class="fLeft"><textarea name="txt" cols="30" rows="10" placeholder="这里是一个多行输入框"></textarea></div></div>
-
-        </div>
-
-
+<form action="#" id="biaodan">
+            <span class="left">请输入邮箱地址</span><input type="text" placeholder="请输入邮箱地址" />
+            <p class="right">邮箱地址按要求输入</p>
+            <span class="left">请输入密码</span><input type="password" placeholder="输入密码" /><br />
+            <span class="left">请再次输入密码</span><input type="password" placeholder="输入密码" />
+            <p class="right">密码为6~16位英文数字</p>
+            <span class="left">性别</span><label><input type="radio" name="gender" id="male" checked="checked" />男</label><label><input type="radio" name="gender" id="female" />女</label>
+            <br />
+           <span class="left">城市</span> <select> <option>上海</option><option>北京</option><option>深圳</option></select>
+            <br />
+            <span class="left">爱好</span><label> <input type="checkbox" />运动</label><label> <input type="checkbox" />艺术</label><label> <input type="checkbox" />篮球</label>
+            <br />
+            <span class="left">个人描述:</span><br />
+            <textarea  id="person" cols="30" rows="10" placeholder="请输入个人简介"></textarea>
+            <button class="btn">提交</button>
     </form>
     </div>
     <div class="footer"> 版权所有&copy;</div>
