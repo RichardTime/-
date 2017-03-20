@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#show div{ background: #f00;color: #fff;float: left;margin: 10px; padding: 10px;}
+		</style>
+	</head>
+	<body>
+		
+		<input type="number" id="input"/>
+		<input type="button" id="leftIn" value="左侧入" />
+		<input type="button" id="RightIn" value="右侧入" />
+		<input type="button" id="leftOut" value="左侧出" />
+		<input type="button" id="RightOut" value="右侧出" />
+		<div id="show" style="overflow: hidden;">
+			
+			
+		</div>
+		<script type="text/javascript">
+			function $(id){
+				return document.getElementById(id);
+			}
+			//获取元素
+			var show=$("show");
+			var num=$("input");
+			//创建要显示的数组
+			var arr=[];
+			$("leftIn").onclick=function(){
+				//获取要进入的数字
+				
+				var numIn=num.value;
+				if(numIn==""){return alert("请输入有效数字")}
+				num.value=""
+				arr.unshift(numIn);
+				shuaxin()
+			}
+			
+			$("leftOut").onclick=function(){
+				arr.shift();
+				shuaxin()
+			}
+			
+			$("RightIn").onclick=function(){
+				var numIn=num.value;
+				if(numIn==""){return alert("请输入有效数字")}
+				arr.push(numIn);
+				num.value="";
+				shuaxin()
+				
+			}
+			
+			$("RightOut").onclick=function(){
+				arr.pop();
+				shuaxin()
+				}
+			
+			
+			function shuaxin(){
+				show.innerHTML="";
+				for(var i=0;i<arr.length;i++){
+					var div=document.createElement("div");
+					div.innerHTML=arr[i];
+					show.appendChild(div);
+				}
+			}
+		</script>
+	</body>
+</html>
