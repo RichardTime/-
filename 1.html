@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>JavaScript实现简单的排序算法</title>
+	<style type="text/css">
+		#show{width: 1200px; height: 300px; border: 1px solid #999; margin-top: 30px;
+		position: relative;}
+		ul li {
+        background-color: red;
+        color: #fff;
+        width: 10px;
+        list-style: none;
+        text-align: center;
+        font-weight: bold;
+        vertical-align: bottom;
+        position: absolute;
+        bottom: 0;
+        transition: height 100ms;
+        margin-right: 5px;
+    }
+	</style>
+</head>
+<body>
+	<input type="number"  id="numBox" />
+	<input type="button" id="leftIn" value="左侧入" />
+	<input type="button"  id="rightIn" value="右侧入" />
+	<input type="button" id="leftOut" value="左侧出" />
+	<input type="button" id="rightOut" value="右侧出" />
+	<input type="button"  id="rCreate" value="随机生成50组" />
+	<input type="button" id="sort" value="排序" />
+	<input type="button" id="upset" value="打乱" />
+	<ul id="show">
+			
+			
+	</ul>
+</body>
+<script type="text/javascript">
+	function $(id){
+		return document.getElementById(id);
+	}
+	//封装取值方法
+	function getVal(){
+		return $("numBox").value;
+	}
+		
+	//添加事件监听
+	function addEvent(elem,type,handler){
+		if(!elem){return false;};
+		if(addEventListener){
+			elem.addEventListener(type,handler,false);
+			return true;
+		}else if(elm.attachEvent){
+			elem.attachEvent("on"+type,function(){
+				handler.apply(elem);
+				return true;
+			})
+		} return false;
+	}
+	//判断是否数字方法
+	function isNumber(value){
+		var re=/^[0-9]+.?[0-9]*$/;
+		if(!re.test(value)){
+			return false;
+		}return true;
+	}
+	
+	//定义输入数字范围方法
+	function checkBoundary(value,maxval,minval){
+		return value<=maxval&&value>=minval;
+	}
+	
+	//定义判断输入方法
+		function checkInput(value){
+			if(isNumber(value)){
+				if(checkBoundary(value,100,10)){
+					return true;
+				}alert("请输入范围内的数字"); return false;
+			}else{
+				alert("请输入数字"); return false;
+			}
+		};
+	
+	
+	
+	
+	//此处胜省略洗牌乱序方法
+	
+	function shuffle(numPool) {//打乱数组方法
+				var a,b,c;
+				for(var i=0;i<numPool.length;i++){//遍历数组
+					a=numPool.length;//a存储数组的长度 numpool[--a]为数组的最后一位数
+					b=parseInt(Math.random()*a);//随机生成一个数组内的位置
+					//交换位置
+//					c=numPool[i];//把遍历到的那一位保存到变量C
+//					numPool[i]=numPool[b];//遍历到的那一位  被赋值 随机生成的数字 
+//					numPool[b]=numPool[--a];
+//					numPool[--a]=c;
+					c=numPool[--a];
+					numPool[a]=numPool[b];
+					numPool[b]=c;
+							}
+				return numPool;
+	};
+	
+
+	
+	
+	var Richard={
+		str:[],
+		len:function(){ return this.str.length;},
+		leftIn:function(){
+			var value=getVal();
+			//判断条件
+			if(checkInput(value)){
+				if (this.isInBoundary()) {
+                this.str.unshift(value);
+                this.render();
+			}else{alert("数组已达到最大边界不能添加")}
+								}
+		},
+		isInBoundary:function(){   //定义是否在范围内函数
+			return this.len()<=60;
+		},
+		isEmpty:function(){
+			return this.len()==0;
+		},
+		leftOut:function(){
+			//判断是否为空
+			if(this.isEmpty()){
+				alert("没有可以移除的项")
+			}else{
+				this.str.shift();
+				this.render();
+			}
+		},
+		rightIn:function(){
+			var value=getVal();
+			//判断条件1,是不是范围内数字2，判断数组有没有超出范围
+			if(checkInput(value)){
+				if(this.isInBoundary()){
+					this.str.push(value);
+					this.render();
+				}else{alert("数字已达到最大边界，不能添加")}
+			}
+		},
+		rightOut:function(){
+			//判断移除之前数组是否还有内容移除
+			if(this.isEmpty()){
+				alert("没有可以移除的项");
+			}else{
+				this.str.pop();
+				this.render();
+			}
+		},
+		render:function(){
+			var len=this.len();
+			var html="";
+			for(var i=0;i<len;i++){
+				html+='<li style="height:'+this.str[i]*2+'px;left:'+((i+1)*5+i*10)+'px;"></li>';
+			}
+			$("show").innerHTML=html;
+		},
+		swap:function(elem1,elem2){
+			var temp=elem1.offsetHeight;
+			elem1.offsetHeight=elem2.offsetHeight;
+			elem1.style.height=elem2.offsetHeight+"px";
+			elem2.offsetHeight=temp;
+			elem2.style.height=temp+"px";
+		},
+		sort:function(){
+				var elems=document.querySelectorAll("li");
+				var len=this.len();
+				var temp=0,i=0,j=0;
+				var that=this;
+				var timer=setInterval(function(){
+					if(i>=len){
+						clearInterval(timer);
+					};
+					  if (j >= len - i-1) {
+              i++
+              j = 0;
+       };
+					if(elems[j].offsetHeight>elems[j+1].offsetHeight){
+						that.swap(elems[j],elems[j+1]);
+					}j++;
+				},50)
+		},
+		unSort:function(){
+			str=shuffle(this.str);
+			this.render();
+		},
+		random:function(){
+			this.str=[];
+			for(var i=0;i<50;i++){
+				this.str[i]=Math.ceil(Math.random()*100);
+			}
+			this.render();
+		}
+		
+		}
+			window.onload=function(){
+				addEvent($("leftIn"),"click",function(){
+					Richard.leftIn();
+				});
+				addEvent($("leftOut"),"click",function(){
+					Richard.leftOut();
+				});
+				addEvent($("rightIn"),"click",function(){
+					Richard.rightIn();
+				});
+				addEvent($("rightOut"),"click",function(){
+					Richard.rightOut();
+				});
+				addEvent($("upset"),"click",function(){
+					Richard.unSort();
+				});
+				addEvent($("rCreate"),"click",function(){
+					Richard.random();
+				});
+				addEvent($("sort"),"click",function(){
+					Richard.sort();
+				})
+				
+			}
+	
+	
+	
+	
+</script>
+</html>
