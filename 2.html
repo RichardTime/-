@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			div{ margin: 20px;}
+			div span{ display: inline-block; padding: 10px; background: #f0e; color: #fff; margin: 10px;}
+		</style>
+	</head>
+	<body>
+		<h1>js.task-6</h1>
+		<hr />
+		<textarea id="txt" rows="10" cols="40"></textarea><br />
+		<input type="button"  id="leftIn" value="左侧入" />
+		<input type="button"  id="leftOut" value="左侧出" />
+		<input type="button"  id="rightIn" value="右侧入" />
+		<input type="button"  id="rightOut" value="右侧出" />
+		<div>
+			<input type="text" id="queryTxt" />
+			<input type="button"  id="query" value="查询" />
+		</div>
+		<div id="show">
+			
+		</div>
+		<script type="text/javascript">
+			function $(id){
+				return document.getElementById(id);
+			}
+			function getContxt(){
+				var str=$("txt").value;
+				//判断用户输入的内容
+				if(str==""){
+					alert("不能输入内容为空")
+				}else{
+					//若输入不为空，匹配正则
+					 var reg = /^[\w\u4e00-\u9fa5\uf900-\ufa2d,， ；;、\n]*$/; 
+				if(reg.test(str)){
+					var newArr=str.split(/[,， ；;、\n]/).filter(function(value){
+					return value!="";
+					});
+					console.log(newArr);
+					$("txt").value="";
+					return newArr;
+				}else{
+					alert("格式可以为数字、中文、英文等，可以通过用回车，逗号（全角半角均可），顿号，空格（全角半角、Tab等均可）等符号作为不同内容的间隔")
+				}
+			}};
+			var Richard={
+				str:null,
+				newStr:[],
+				index:0,
+				render:function(){
+					var html="";
+					for(var i=0;i<this.newStr.length;i++){
+						html+='<span>'+this.newStr[i]+'</span>';
+					};
+					$("show").innerHTML=html;
+				},
+				leftIn:function(){
+					//先获取 用户输入内容分割成的数组
+					this.str=getContxt();
+					for(var i=this.str.length-1;i>=0;i--){
+						this.newStr.unshift(this.str[i]);
+					};
+					this.render();
+				},
+				leftOut:function(){
+					//判断左侧删除的内容是否为空
+					if(this.newStr.length==0){
+						alert("移除范围已经超出边界");
+					}else{
+						this.newStr.shift();
+						this.render(); 
+					}
+				},
+				rightIn:function(){
+					this.str=getContxt();
+					for(var i=0;i<this.str.length;i++){
+						this.newStr.push(this.str[i]);
+					};
+					this.render();
+				},
+				rightOut:function(){
+					if(this.newStr.length==0){
+						alert("移除范围已经超出边界");
+					}else{
+						this.newStr.pop();
+						this.render();
+					}
+				},
+				search:function(){
+					var queryT=$("queryTxt").value;
+					for(var j=0;j<this.newStr.length;j++){
+						$("show").getElementsByTagName("span")[j].style.backgroundColor="";
+					}//先清除到之前查询到的样式
+					for(var i=0;i<this.newStr.length;i++){
+						if(queryT==this.newStr[i]){
+								$("show").getElementsByTagName("span")[i].style.backgroundColor="red";
+								//遍历检索若相等则改变样式，检索值++；
+								this.index++;
+						};	
+					};
+						if(this.index==0){alert("没有查询到检索的内容")}else{this.clear();}
+//					if(this.index.length==0){alert("未匹配到检索的内容")}else{
+//						for(var j=0;j<this.newStr.length;i++){
+//							
+//						}
+//					}
+					
+				},
+				clear:function(){
+					$("queryTxt").value="";
+					this.index=0;
+				}
+			}
+			
+			
+			
+			
+			
+			$("leftIn").addEventListener("click",function(){
+				Richard.leftIn();
+			},false);
+				$("leftOut").addEventListener("click",function(){
+				Richard.leftOut();
+			},false);
+			$("rightIn").addEventListener("click",function(){
+				Richard.rightIn();
+			},false);
+				$("rightOut").addEventListener("click",function(){
+				Richard.rightOut();
+			},false);
+			$("query").addEventListener("click",function(){
+				Richard.search();
+			},false);
+		</script>
+	</body>
+</html>
