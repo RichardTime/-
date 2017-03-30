@@ -2,69 +2,171 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title></title>
+		<title>FormValidation</title>
 		<style type="text/css">
-			#show div{ background: #f00;color: #fff;float: left;margin: 10px; padding: 10px;}
+			*{margin: 0;padding: 0;}
+			form input{border: 1px solid #ccc;}
+			form{ border: 1px solid #ccc; padding: 20px; width: 400px; margin: 15px auto;}
+			form .box{ line-height: 30px;margin: 20px;}
+			form .box span{display: inline-block; width: 80px; text-align: right; padding-right: 20px; font-size: 18px;font-family: "微软雅黑";color: #333;}
+			form p{ height: 20px; line-height: 20px; color: #999; font-size: 16px;padding-left: 98px;}
+			#submit{ padding: 10px 20px; color: #fff; background:#00CCCC; font-size: 16px;border: none; border-radius: 5px;}
+			.center{text-align: center;}
+			.red{ border-color: red;}
+			.redInfo{color: red;}
+			.green{border-color: green;}
+			.greenInfo{color: green;}
 		</style>
 	</head>
 	<body>
-		
-		<input type="number" id="input"/>
-		<input type="button" id="leftIn" value="左侧入" />
-		<input type="button" id="RightIn" value="右侧入" />
-		<input type="button" id="leftOut" value="左侧出" />
-		<input type="button" id="RightOut" value="右侧出" />
-		<div id="show" style="overflow: hidden;">
-			
-			
-		</div>
-		<script type="text/javascript">
-			function $(id){
-				return document.getElementById(id);
-			}
-			//获取元素
-			var show=$("show");
-			var num=$("input");
-			//创建要显示的数组
-			var arr=[];
-			$("leftIn").onclick=function(){
-				//获取要进入的数字
-				
-				var numIn=num.value;
-				if(numIn==""){return alert("请输入有效数字")}
-				num.value=""
-				arr.unshift(numIn);
-				shuaxin()
-			}
-			
-			$("leftOut").onclick=function(){
-				arr.shift();
-				shuaxin()
-			}
-			
-			$("RightIn").onclick=function(){
-				var numIn=num.value;
-				if(numIn==""){return alert("请输入有效数字")}
-				arr.push(numIn);
-				num.value="";
-				shuaxin()
-				
-			}
-			
-			$("RightOut").onclick=function(){
-				arr.pop();
-				shuaxin()
+			<form action="#">
+				<div class="box">
+					<label for="userName"><span>名称</span><input type="text" name="userName" id="userName" /></label>
+					<p id="nameInfo"></p>
+				</div>
+				<div class="box">
+					<label for="pwd"><span>密码</span><input type="password"  id="pwd" /></label>
+					<p id="pwdInfo"></p>
+				</div>
+				<div class="box">
+					<label for="pwdSub"><span>密码确认</span><input type="password"  id="pwdSub" /></label>
+					<p id="pwdSubInfo"></p>
+				</div>
+				<div class="box">
+					<label for="mail"><span>邮箱</span><input type="text"  id="mail" /></label>
+					<p id="mailInfo"></p>
+				</div>
+				<div class="box">
+					<label for="phone"><span>手机</span><input type="text"  id="phone" /></label>
+					<p id="phoneInfo"></p>
+				</div>
+				<div class="center"><input type="button"  id="submit" value="提交" /></div>
+			</form>
+			<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+			<script type="text/javascript">
+				function nameonFoucs(){
+					if($('#userName').val()==""){
+					$('.nameInfo').text('必填长度为4-16位字符');}
 				}
-			
-			
-			function shuaxin(){
-				show.innerHTML="";
-				for(var i=0;i<arr.length;i++){
-					var div=document.createElement("div");
-					div.innerHTML=arr[i];
-					show.appendChild(div);
+				function nameonBlur(){
+					var txt=$('#userName').val();//现获取用户名输入框的值然后作条件判断
+					txt=txt.trim();//去掉用户名的空格
+					var newTxt=txt.replace(/[\u4e00-\u9fa5]/g,"aa")//将所有字符的中文替换成aa用来计算长度，中文字符长度为2
+					if(newTxt.length>=4&&newTxt.length<=16){
+						$('#nameInfo').text('验证通过');
+						$('#nameInfo').removeClass();
+						$('#userName').removeClass();
+						$('#nameInfo').addClass("greenInfo");
+						$('#userName').addClass("green");
+					}else{
+						$('#nameInfo').text('请输入4-16为有效字符');
+						$('#nameInfo').removeClass();
+						$('#userName').removeClass();
+						$('#nameInfo').addClass("redInfo");
+						$('#userName').addClass("red");
+					};
+					
 				}
-			}
-		</script>
+				var sign=null;
+				function pwdFocs(){
+					$('#pwdInfo').text('请输入密码，最少8位');
+				}
+				function pwdBlur(){
+					var txt=$('#pwd').val();
+					if(txt.length>=8){
+						$('#pwd').removeClass();
+						$('#pwdInfo').removeClass();
+						$('#pwd').addClass('green');
+						$('#pwdInfo').addClass('greenInfo');
+						$('#pwdInfo').text("密码合法");
+						sign=true;
+					}else{
+						$('#pwd').removeClass();
+						$('#pwdInfo').removeClass();
+						$('#pwd').addClass('red');
+						$('#pwdInfo').addClass('redInfo');
+						$('#pwdInfo').text("密码不合法，请输入密码，最少8位");
+						sign=false;
+					}
+					
+				}
+				
+				function pwdSubBlur(){
+					var oldTxt=$('#pwd').val();
+					var newTxt=$('#pwdSub').val();
+					if(oldTxt==newTxt&&oldTxt!=""&&sign==true){
+						$('#pwdSub').removeClass();
+						$('#pwdSubInfo').removeClass();
+						$('#pwdSub').addClass('green');
+						$('#pwdSubInfo').addClass('greenInfo');
+						$('#pwdSubInfo').text('验证通过')
+					}else{
+						$('#pwdSub').removeClass();
+						$('#pwdSubInfo').removeClass();
+						$('#pwdSub').addClass('red');
+						$('#pwdSubInfo').addClass('redInfo');
+						$('#pwdSubInfo').text('两次密码不一致')
+					}
+				}
+				
+				function emailFocus(){
+					$('#mailInfo').text("请输入您常用QQ邮箱地址");
+				}
+				function emailBlur(){
+					var value=$('#mail').val();
+					var reg=/^\d{5,12}@[q][q]\.com$/i;
+					var result=reg.test(value);
+					if(result){
+						$('#mail').removeClass();
+						$('#mailInfo').removeClass();
+						$('#mail').addClass('green');
+						$('#mailInfo').addClass('greenInfo');
+						$('#mailInfo').text('邮箱验证成功');
+					}else{
+						$('#mail').removeClass();
+						$('#mailInfo').removeClass();
+						$('#mail').addClass('red');
+						$('#mailInfo').addClass('redInfo');
+						$('#mailInfo').text('请输入正确格式的QQ邮箱');
+					}
+				}
+				 function phoneFocus(){
+				 	$('#phoneInfo').text("请输入手机号码");
+				 }
+				 function phoneBlur(){
+				 	var val=$('#phone').val();
+				 	var reg=/^1[835]\d{9}$/;
+				 	var result=reg.test(val);
+				 	if(result){
+				 		$('#phone').removeClass();
+						$('#phoneInfo').removeClass();
+						$('#phone').addClass('green');
+						$('#phoneInfo').addClass('greenInfo');
+						$('#phoneInfo').text('手机验证成功');
+				 	}else{
+				 		$('#phone').removeClass();
+						$('#phoneInfo').removeClass();
+						$('#phone').addClass('red');
+						$('#phoneInfo').addClass('redInfo');
+						$('#phoneInfo').text('请输入正确的手机号');
+				 	}
+				 }
+				
+				
+				
+				
+				//事件绑定区
+				$('#userName').on({
+					focus:nameonFoucs()
+				})
+				$("#userName").blur(nameonBlur);
+				$('#pwd').focus(pwdFocs);
+				$('#pwd').blur(pwdBlur);
+				$('#pwdSub').blur(pwdSubBlur);
+				$("#mail").focus(emailFocus);
+				$('#mail').blur(emailBlur);
+				$('#phone').focus(phoneFocus);
+				$('#phone').blur(phoneBlur);
+			</script>
 	</body>
 </html>
